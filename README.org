@@ -1,0 +1,29 @@
+#+title: gptel-inline
+
+/This is a work in progress, so (i) expect bugs (for a while) and (ii) a better
+description (soon)./
+
+This package provides =gptel-inline=, a command to interact with a persistent
+[[https://github.com/karthink/gptel][gptel]] session from anywhere in Emacs.  Responses appear in an overlay at point
+rather than requiring the user to visit the chat buffer.
+
+=M-x gptel-inline= displays a buffer for prompt entry (in a small window) and
+injects selected text/surrounding context as reference material if you want.
+When the query is sent, LLM responses are shown inline.  The primary chat buffer
+remains in the background and provides the full conversation history context --
+you don't need to switch to it.
+
+Instead of sending the prompt, you can also
+- append to the session without sending, building up a prompt piecewise with
+  references.
+- Change the text selection being included, cycling through semantic units,
+- or change the underlying chat session.
+
+The inline response is displayed in a viewport. You can
+- scroll, enlarge and drag the viewport around (with your mouse),
+- reply (to continue the conversation) or copy the response,
+- visit the underlying gptel session,
+- or dismiss the viewport.
+
+(Hints/keybindings for running all of the prompt window and response viewport
+actions are displayed in context.)
