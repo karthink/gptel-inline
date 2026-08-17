@@ -7,6 +7,41 @@ This package provides =gptel-inline=, a command to interact with a persistent
 [[https://github.com/karthink/gptel][gptel]] session from anywhere in Emacs.  Responses appear in an overlay at point
 rather than requiring the user to visit the chat buffer.
 
+** Why?
+
+Easy access to a relevant gptel buffer so you can continue a
+conversation from anywhere.  gptel-inline inverts the typical LLM access pattern
+-- instead of living in an LLM chat buffer and directing an agent to do things
+in other buffers, you can roam around freely in Emacs and talk to the same,
+persistent LLM session from anywhere. 
+
+** Setup
+
+Install this package manually (using =package-install-file=), or using VC (built into Emacs 30):
+
+#+begin_src emacs-lisp
+(use-package gptel-inline
+  :vc (:url "https://github.com/karthink/gptel-inline"
+       :rev :newest)
+  :after gptel)
+#+end_src
+
+or Straight or Elpaca:
+
+#+begin_src emacs-lisp
+;; Straight
+(use-package gptel-inline
+  :straight (:host github :repo "karthink/gptel-inline")
+  :after gptel)
+
+;; Elpaca
+(use-package gptel-inline
+  :ensure (:host github :repo "karthink/gptel-inline")
+  :after gptel)
+#+end_src
+
+** Usage
+
 =M-x gptel-inline= displays a buffer for prompt entry (in a small window) and
 injects selected text/surrounding context as reference material if you want.
 When the query is sent, LLM responses are shown inline.  The primary chat buffer

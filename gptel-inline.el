@@ -6,6 +6,9 @@
 ;; Version: 0.0.5
 ;; Package-Requires: ((emacs "29.1") (compat "30.1.0.0") (gptel "0.9.9.5"))
 ;; Keywords: comm
+;; URL: https://github.com/karthink/gptel-inline
+
+;; SPDX-License-Identifier: GPL-3.0-or-later
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -91,7 +94,7 @@ nil: insert at point in the chat buffer
 
 The first two differ only if you have issued a query from somewhere
 besides the end of the buffer.  This is common if you use branching
-context, for instance. (See `gptel-org-branching-context'.)"
+context, for instance.  (See `gptel-org-branching-context'.)"
   :type '(choice (const :tag "At end" t)
                  (const :tag "At current point" nil)
                  (const :tag "After last response" last)))
@@ -484,6 +487,7 @@ depending on whether RESPONSE-OV is visible in the window."
 
 ;; TODO: All dispatch commands are almost identical, factor out this logic.
 (defun gptel-inline--accept-tool-calls (response-ov)
+  "Confirm tool calls displayed in RESPONSE-OV, the inline overlay."
   (interactive (list (gptel-inline--response-overlay-at-point)))
   (unless (and (overlayp response-ov)
                (overlay-buffer response-ov))
@@ -505,6 +509,7 @@ depending on whether RESPONSE-OV is visible in the window."
     (keymap-unset gptel-inline--response-overlay-mode-map "C-c C-k" 'remove)))
 
 (defun gptel-inline--reject-tool-calls (response-ov)
+  "Reject tool calls displayed in RESPONSE-OV, the inline overlay."
   (interactive (list (gptel-inline--response-overlay-at-point)))
   (unless (and (overlayp response-ov)
                (overlay-buffer response-ov))
@@ -531,6 +536,8 @@ depending on whether RESPONSE-OV is visible in the window."
 ;; tool call display, for example.
 
 (defun gptel-inline--display-tool-calls (calls info)
+  "Display tool CALLS in the inline response overlay.
+INFO is the plist containing query details."
   (let ((tco (gptel--display-tool-calls calls info))
         (response-ov (map-nested-elt info '(:context :response-ov))))
     ;; If TCO is not the prompt overlay we queried from the minibuffer
@@ -696,7 +703,7 @@ source buffer for rendering."
 Interactively, uses the nearest visible gptel inline overlay.  Deletes
 the reference overlay and removes the response overlay.
 
-With prefix-arg ABORT, also aborts any active gptel request in the
+With `prefix-arg' ABORT, also aborts any active gptel request in the
 associated chat buffer."
   (interactive (list (gptel-inline--response-overlay-at-point)
                      current-prefix-arg))
