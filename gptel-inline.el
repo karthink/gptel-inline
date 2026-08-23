@@ -4,7 +4,7 @@
 
 ;; Author: Karthik Chikmagalur <karthikchikmagalur@gmail.com>
 ;; Version: 0.0.5
-;; Package-Requires: ((emacs "29.1") (compat "30.1.0.0") (gptel "0.9.9.5"))
+;; Package-Requires: ((emacs "30.1") (compat "30.1.0.0") (gptel "0.9.9.5"))
 ;; Keywords: comm
 ;; URL: https://github.com/karthink/gptel-inline
 
@@ -67,11 +67,17 @@
 (declare-function make-vtable-column "vtable")
 (declare-function project-root "project")
 
-(declare-function org-element-lineage-map "org-element")
+(declare-function org-element-lineage-map "org-element-ast")
 (declare-function org-element-context "org-element")
-(declare-function org-element-type "org-element")
+(declare-function org-element-type "org-element-ast")
 (declare-function org-element-begin "org-element")
 (declare-function org-element-end "org-element")
+(declare-function org-escape-code-in-string "org-src")
+
+(declare-function gfm-mode "ext:markdown-mode")
+(declare-function markdown-toggle-markup-hiding "ext:markdown-mode")
+(declare-function markdown-toggle-fontify-code-blocks-natively
+                  "ext:markdown-mode")
 
 
 ;;;; User options
@@ -97,7 +103,8 @@ besides the end of the buffer.  This is common if you use branching
 context, for instance.  (See `gptel-org-branching-context'.)"
   :type '(choice (const :tag "At end" t)
                  (const :tag "At current point" nil)
-                 (const :tag "After last response" last)))
+                 (const :tag "After last response" last))
+  :group 'gptel-inline)
 
 (defcustom gptel-inline-buffer-display-action
   '((display-buffer-below-selected)
@@ -622,10 +629,6 @@ after-string, showing HEIGHT lines starting at SCROLL-INDEX."
                 gptel-buffer)
         'keymap gptel-inline-response-overlay-map
         'pointer 'hand)))))
-
-(declare-function gfm-mode "markdown-mode")
-(declare-function markdown-toggle-markup-hiding "markdown-mode")
-(declare-function markdown-toggle-fontify-code-blocks-natively "markdown-mode")
 
 (defun gptel-inline--setup-response-overlay (context-plist)
   "Create and initialize the response overlay for CONTEXT-PLIST.
