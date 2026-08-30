@@ -64,7 +64,7 @@
 
 (declare-function buttonize "button")
 (declare-function make-vtable "vtable")
-(declare-function make-vtable-column "vtable")
+(declare-function make-vtable-column "vtable" nil t)
 (declare-function project-root "project")
 
 (declare-function org-element-lineage-map "org-element-ast")
