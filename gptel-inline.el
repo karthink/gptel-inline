@@ -106,11 +106,24 @@ context, for instance.  (See `gptel-org-branching-context'.)"
                  (const :tag "After last response" last))
   :group 'gptel-inline)
 
-(defcustom gptel-inline-buffer-display-action
+(define-obsolete-variable-alias
+  'gptel-inline-buffer-display-action
+  'gptel-inline-display-prompt-action
+  "0.0.5")
+
+(defcustom gptel-inline-display-prompt-action
   '((display-buffer-below-selected)
     (window-height . 0.33)
     (dedicated . t))
   "Display action used to show the `gptel-inline' prompt buffer.
+
+See `display-buffer' for details."
+  :type display-buffer--action-custom-type
+  :group 'gptel-inline)
+
+(defcustom gptel-inline-display-buffer-action
+  gptel-display-buffer-action
+  "Display action used to show the chat buffer.
 
 See `display-buffer' for details."
   :type display-buffer--action-custom-type
@@ -971,7 +984,7 @@ Send: \\[gptel-inline-send], Help: \\[gptel-inline-help], Quit: \\[gptel-inline-
             (list :marker origin :reference-ov reference-ov
                   :response-ov (and (overlayp continue-ov) continue-ov)
                   :new newp)))
-    (pop-to-buffer prompt-buf gptel-inline-buffer-display-action)
+    (pop-to-buffer prompt-buf gptel-inline-display-prompt-action)
     prompt-buf))
 
 (defun gptel-inline-cycle-reference (&optional origin interactivep)
@@ -1045,7 +1058,7 @@ be called from the `gptel-inline' prompt buffer."
   (let* ((cwc (current-window-configuration))
          (retfun (lambda () (interactive) (set-window-configuration cwc))))
     (when (buffer-live-p chat-buf) ;extra check when calling from response overlay
-      (pop-to-buffer chat-buf gptel-display-buffer-action)
+      (pop-to-buffer chat-buf gptel-inline-display-buffer-action)
       (set-transient-map
        (define-keymap "<remap> <keyboard-quit>" retfun)
        (lambda () (eq (current-buffer) chat-buf)) nil
