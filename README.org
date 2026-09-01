@@ -17,7 +17,11 @@ persistent LLM session from anywhere.
 
 ** Setup
 
-Install this package manually (using =package-install-file=), or using VC (built into Emacs 30):
+gptel-inline is on MELPA, so you can install it with =M-x package-install ⮐=
+=gptel-inline=.
+
+Alternatively, you can install this package manually (using
+=package-install-file=) from the cloned repo, or using VC (built into Emacs 30):
 
 #+begin_src emacs-lisp
 (use-package gptel-inline
@@ -26,7 +30,7 @@ Install this package manually (using =package-install-file=), or using VC (built
   :after gptel)
 #+end_src
 
-or Straight or Elpaca:
+or via Straight or Elpaca:
 
 #+begin_src emacs-lisp
 ;; Straight
